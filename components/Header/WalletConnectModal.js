@@ -18,7 +18,7 @@ const WalletConnectModal = (props) => {
                 </div>
             </div>
             <div className="flex items-center px-8 py-10">
-                <button className={buttonClass} onClick={() => {
+                <button disabled={!connectors[0].ready} className={buttonClass} onClick={() => {
                     connect({ connector: connectors[0] });
                     setConnected(!connected)
                     closeModal();

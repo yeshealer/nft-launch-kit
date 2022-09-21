@@ -2,13 +2,14 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Icon } from '@iconify/react';
 import Modal from 'react-modal';
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect, useConnect } from 'wagmi'
 import WalletConnectModal from './WalletConnectModal';
 
 const Header = (props) => {
     const { setDarkToggle, darkToggle } = props;
     const { isConnected, address } = useAccount()
     const { disconnect } = useDisconnect()
+    const { isLoading } = useConnect()
     const router = useRouter()
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [connected, setConnected] = React.useState(false);
@@ -74,17 +75,17 @@ const Header = (props) => {
                     <div className='relative'>
                         {(connected && darkToggle) && (
                             <button className='h-10 bg-[#90cdf4] hover:bg-[#63b3ed] text-[#1A202C] font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {address && address.slice(0, 5)}...{address && address.slice(-4)}
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
                         {(connected && !darkToggle) && (
                             <button className='h-10 bg-[#3182ce] hover:bg-[#2b6cb0] text-white font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {address && address.slice(0, 5)}...{address && address.slice(-4)}
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
                         {!connected && (
                             <button className='h-10 font-semibold text-base border border-[#2b6cb0] dark:border-[#90cdf4] rounded-md text-[#2b6cb0] dark:text-[#90cdf4] px-4 ml-2 font-[ubuntu] hover:bg-[#ebf8ff] dark:hover:bg-[#90cdf41f] transition-all' onClick={openModal}>
-                                Connect Wallet
+                                Connect a Wallet
                             </button>
                         )}
                         {dropdownToggle && <div id="dropdown" class="absolute z-10 w-52 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 ml-2 mt-2 border border-white/[0.16]">
