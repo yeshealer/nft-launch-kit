@@ -14,17 +14,9 @@ const Header = (props) => {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [connected, setConnected] = React.useState(false);
     const [dropdownToggle, setDropdownToggle] = React.useState(false);
-    const [walletAddress, setWalletAddress] = React.useState('')
-
-    const getWalletAddress = async () => {
-        const { ethereum } = window;
-        const accounts = await ethereum.request({ method: "eth_accounts" });
-        setWalletAddress(accounts[0])
-    }
 
     useEffect(() => {
         setConnected(isConnected)
-        getWalletAddress()
     }, [isConnected])
 
     const changeMode = () => {
@@ -37,6 +29,13 @@ const Header = (props) => {
         }
         setDarkToggle(!darkToggle)
     }
+    useEffect(() => {
+        document.addEventListener('click', function (e) {
+            if (e.target.id !== 'dropdown' && e.target.id !== 'connect') {
+                setDropdownToggle(false)
+            }
+        })
+    })
 
     const customStyles = {
         content: {
@@ -82,13 +81,13 @@ const Header = (props) => {
 
                     <div className='relative'>
                         {(connected && darkToggle) && (
-                            <button className='h-10 bg-[#90cdf4] hover:bg-[#63b3ed] text-[#1A202C] font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {isLoading ? (<Icon icon="eos-icons:loading" />) : walletAddress ? (walletAddress.slice(0, 5) + '...' + walletAddress.slice(-4)) : 'Connect a wallet'}
+                            <button id='connect' className='h-10 bg-[#90cdf4] hover:bg-[#63b3ed] text-[#1A202C] font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
                         {(connected && !darkToggle) && (
-                            <button className='h-10 bg-[#3182ce] hover:bg-[#2b6cb0] text-white font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {isLoading ? (<Icon icon="eos-icons:loading" />) : walletAddress ? (walletAddress.slice(0, 5) + '...' + walletAddress.slice(-4)) : 'Connect a wallet'}
+                            <button id='connect' className='h-10 bg-[#3182ce] hover:bg-[#2b6cb0] text-white font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
                         {!connected && (
@@ -96,13 +95,13 @@ const Header = (props) => {
                                 Connect a Wallet
                             </button>
                         )}
-                        {dropdownToggle && <div id="dropdown" class="absolute z-10 w-52 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 ml-2 mt-2 border border-white/[0.16]">
-                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                        {dropdownToggle && <div id="dropdown" className="absolute z-10 w-52 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 ml-2 mt-2 border border-white/[0.16]">
+                            <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                                 <li onClick={() => {
                                     disconnect()
                                     setDropdownToggle(false)
                                 }}>
-                                    <a href="#" class="block py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-[ubuntu] text-base">Disconnect</a>
+                                    <a href="#" className="block py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-[ubuntu] text-base" id='dropdown'>Disconnect</a>
                                 </li>
                             </ul>
                         </div>}
