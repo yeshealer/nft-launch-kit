@@ -64,7 +64,7 @@ const Header = (props) => {
         <div className='fixed bg-white dark:bg-[#171923] w-full flex justify-center'>
             <div className="h-16 flex items-center justify-between w-[1248px] px-4">
                 <div className="flex items-baseline">
-                    <div className="font-bold text-xl text-[#1A202C] dark:text-white mr-0 md:mr-10">NFTLaunchKit</div>
+                    <div className="font-bold text-xl text-[#1A202C] dark:text-white mr-0 md:mr-10" onClick={() => router.push('/')}>NFTLaunchKit</div>
                     <div className="hidden md:block flex items-center">
                         <button className={NavbarClass} onClick={() => router.push('/')}>Home</button>
                         <button className={`${NavbarClass} ml-4`} onClick={() => router.push('/collections')}>Collections</button>
@@ -74,7 +74,7 @@ const Header = (props) => {
                 </div>
                 <div className="flex items-center">
                     {darkToggle ? (<button className="flex items-center justify-center w-10 h-10 bg-white/[0.08] hover:bg-white/[0.16] transition-all duration-200 rounded-md" onClick={() => changeMode()}>
-                        <Icon icon="bi:sun" width="20" height="20" />
+                        <Icon icon="bi:sun" color="white" width="20" height="20" />
                     </button>) : (<button className="flex items-center justify-center w-10 h-10 bg-[#EDF2F7] hover:bg-[#E2E8F0] transition-all duration-200 rounded-md" onClick={() => changeMode()}>
                         <Icon icon="bxs:moon" color="black" width="20" height="20" />
                     </button>)}

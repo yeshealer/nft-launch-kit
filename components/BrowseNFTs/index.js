@@ -22,7 +22,7 @@ const BrowseNFTs = () => {
         <div className="flex flex-col items-center w-full bg-white dark:bg-[#1a202c]">
             <div className='flex flex-col max-w-screen-xl py-10 px-4 mt-12 md:mt-20'>
                 <div className="font-bold text-lg sm:text-2xl md:text-3xl mb-8 text-[#1A202C] dark:text-white">CryptoPunks</div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-[1248px]">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {nftCollectionList && nftCollectionList.length > 0 ? nftCollectionList.map((nftCollection, index) => {
                         return (
                             <div key={index} className={`w-full dark:bg-[#1A202C] border border-white/[0.16] rounded-lg cursor-pointer shadow-lg dark:shadow-none`} onClick={() => router.push(`/collections/${nftCollection.token_id}`)}>
@@ -32,10 +32,11 @@ const BrowseNFTs = () => {
                                             currentTarget.onerror = null;
                                             currentTarget.src = '/assets/image/default.png'
                                         }}
+                                        width="292px"
                                     />
                                 </div>
                                 <div className="p-3">
-                                    <div className="text-base font-[ubuntu] font-semibold mt-1 text-[#1A202C] dark:text-white">CryptoPunk {nftCollection.token_id}</div>
+                                    <div className="text-sm md:text-base font-[ubuntu] font-semibold mt-1 text-[#1A202C] dark:text-white">CryptoPunk {nftCollection.token_id}</div>
                                     <div className="flex items-center mt-4">
                                         <EthereumIcon />
                                         <div className="text-sm font-[ubuntu] text-[#1A202C] dark:text-white">1</div>
