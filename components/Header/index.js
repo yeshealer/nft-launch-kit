@@ -14,10 +14,18 @@ const Header = (props) => {
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [connected, setConnected] = React.useState(false);
     const [dropdownToggle, setDropdownToggle] = React.useState(false);
+    const [walletAddress, setWalletAddress] = React.useState('')
+
+    const getWalletAddress = async () => {
+        const { ethereum } = window;
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        setWalletAddress(accounts[0])
+    }
 
     useEffect(() => {
         setConnected(isConnected)
-    }, [])
+        getWalletAddress()
+    }, [isConnected])
 
     const changeMode = () => {
         if (darkToggle) {
@@ -73,17 +81,17 @@ const Header = (props) => {
                     </button>)}
 
                     <div className='relative'>
-                        {(isConnected && darkToggle) && (
+                        {(connected && darkToggle) && (
                             <button className='h-10 bg-[#90cdf4] hover:bg-[#63b3ed] text-[#1A202C] font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : walletAddress ? (walletAddress.slice(0, 5) + '...' + walletAddress.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
-                        {(isConnected && !darkToggle) && (
+                        {(connected && !darkToggle) && (
                             <button className='h-10 bg-[#3182ce] hover:bg-[#2b6cb0] text-white font-semibold font-[ubuntu] ml-2 px-4 rounded-md transition-all' onClick={() => setDropdownToggle(!dropdownToggle)}>
-                                {isLoading ? (<Icon icon="eos-icons:loading" />) : address ? (address.slice(0, 5) + '...' + address.slice(-4)) : 'Connect a wallet'}
+                                {isLoading ? (<Icon icon="eos-icons:loading" />) : walletAddress ? (walletAddress.slice(0, 5) + '...' + walletAddress.slice(-4)) : 'Connect a wallet'}
                             </button>
                         )}
-                        {!isConnected && (
+                        {!connected && (
                             <button className='h-10 font-semibold text-base border border-[#2b6cb0] dark:border-[#90cdf4] rounded-md text-[#2b6cb0] dark:text-[#90cdf4] px-4 ml-2 font-[ubuntu] hover:bg-[#ebf8ff] dark:hover:bg-[#90cdf41f] transition-all' onClick={openModal}>
                                 Connect a Wallet
                             </button>
@@ -110,8 +118,6 @@ const Header = (props) => {
                 <WalletConnectModal
                     closeModal={closeModal}
                     darkToggle={darkToggle}
-                    setConnected={setConnected}
-                    connected={connected}
                 />
             </Modal>
         </div>

@@ -4,7 +4,7 @@ import { MetamaskIcon, Coinbase } from "../WalletIcon";
 import { useConnect } from 'wagmi'
 
 const WalletConnectModal = (props) => {
-    const { closeModal, darkToggle, setConnected, connected } = props
+    const { closeModal, darkToggle } = props
     const buttonClass = `flex flex-col items-center min-w-[120px] md:min-w-[176px] p-4 bg-transparent ${darkToggle ? 'hover:bg-white/[0.08]' : 'hover:bg-[#EDF2F7]'} rounded-md transition-all duration-200`
     const walletName = `${darkToggle ? 'text-white' : 'text-black'} text-sm py-2 font-semibold font-[ubuntu]`
 
@@ -21,7 +21,6 @@ const WalletConnectModal = (props) => {
             <div className="flex items-center px-8 py-10">
                 <button disabled={!connectors[0].ready} className={buttonClass} onClick={() => {
                     connect({ connector: connectors[0] });
-                    setConnected(!connected)
                     closeModal();
                 }}>
                     <MetamaskIcon />
@@ -29,7 +28,6 @@ const WalletConnectModal = (props) => {
                 </button>
                 <button className={`${buttonClass} ml-8`} onClick={() => {
                     connect({ connector: connectors[1] });
-                    setConnected(!connected)
                     closeModal()
                 }}>
                     <Coinbase />
